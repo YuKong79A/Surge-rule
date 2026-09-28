@@ -1,8 +1,9 @@
-#!name=SenPlayer txh068 视频播放通知
-#!desc=访问 txh068.com 的 M3U8 播放列表时，点击 Surge 通知交给 SenPlayer 播放。
+#!name=SenPlayer 站点视频播放通知
+#!desc=访问已配置站点的 M3U8 播放列表时，点击 Surge 通知交给 SenPlayer 播放。
 
 [MITM]
-hostname = %APPEND% txh068.com, *.txh068.com
+hostname = %APPEND% txh068.com, *.txh068.com, hls.qldjxf.cn
 
 [Script]
 SenPlayer txh068 视频播放通知 = type=http-response, pattern=^https:\/\/(?:[^\/]+\.)?txh068\.com\/.*\.m3u8(?:\?|$), script-path=https://raw.githubusercontent.com/YuKong79A/Surge-rule/main/scripts/senplayer-all-videos.js, requires-body=false
+SenPlayer 51cg 视频播放通知 = type=http-response, pattern=^https:\/\/hls\.qldjxf\.cn\/.*\.m3u8(?:\?|$), script-path=https://raw.githubusercontent.com/YuKong79A/Surge-rule/main/scripts/senplayer-all-videos.js, requires-body=false
