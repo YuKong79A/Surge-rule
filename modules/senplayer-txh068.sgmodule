@@ -1,0 +1,8 @@
+#!name=SenPlayer 指定视频播放通知
+#!desc=访问指定的 txh068.com M3U8 地址时，点击 Surge 通知交给 SenPlayer 播放。
+
+[MITM]
+hostname = %APPEND% txh068.com
+
+[Script]
+SenPlayer 指定视频播放通知 = type=http-response, pattern=^https:\/\/txh068\.com\/h5\/m3u8\/link\/d096f4ceafbf9d07a24a84e9e509098d\.m3u8(?:\?|$), script-path=https://raw.githubusercontent.com/YuKong79A/Surge-rule/main/scripts/senplayer-all-videos.js, requires-body=false
