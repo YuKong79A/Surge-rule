@@ -1,6 +1,5 @@
-# FlClash / Mihomo profile from My-surge.conf and SukkaW/Surge README.
-# Replace proxy-providers.airport.url with your own Mihomo/Clash node subscription URL.
-# Surge MITM and URL-REGEX rules have no direct Mihomo equivalent.
+# FlClash / Mihomo profile. Add your own Clash/Mihomo node subscription URL at proxy-providers.airport.url.
+# Nodes are supplied by the subscription; no static nodes or private credentials are embedded.
 mixed-port: 7890
 allow-lan: false
 mode: rule
@@ -56,16 +55,17 @@ tun:
   auto-detect-interface: true
   dns-hijack:
   - any:53
+  
 proxy-providers:
-  airport:
+  Subscribe: # 在此将 "http://your-service-provider" 替换为你的机场订阅，推荐使用 base64 或者 node list
     type: http
-    url: https://example.com/REPLACE_WITH_YOUR_MIHOMO_NODE_SUBSCRIPTION
-    path: ./providers/airport.yaml
+    url: "your url"
     interval: 43200
     health-check:
       enable: true
       url: http://cp.cloudflare.com/generate_204
       interval: 300
+      
 proxy-groups:
 - name: Proxy
   type: select
@@ -211,14 +211,14 @@ proxy-groups:
 - name: 🇭🇰 香港节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇭🇰|香港|Hong|HK)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: 🇺🇸 美国节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇺🇸|美国|States|US)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -227,35 +227,35 @@ proxy-groups:
   proxies:
   - 🇺🇸 美国节点
   use:
-  - airport
+  - Subscribe
   filter: (?i)((🇺🇸|美国|States|US).*高级|高级.*(🇺🇸|美国|States|US))
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: 🇯🇵 日本节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇯🇵|日本|Japan|JP)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: 🇨🇳 台湾节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇨🇳|台湾|Tai|TW)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: 🇰🇷 韩国节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇰🇷|韩国|Korea|KR)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: 🇸🇬 新加坡节点
   type: url-test
   use:
-  - airport
+  - Subscribe
   filter: (?i)(🇸🇬|新加坡|Singapore|SG)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -264,14 +264,14 @@ proxy-groups:
   proxies:
   - Proxy
   use:
-  - airport
+  - Subscribe
   filter: 实验性
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: ✈️ 我的节点
   type: select
   use:
-  - airport
+  - Subscribe
 rule-providers:
   reject_non_ip_drop:
     type: http
