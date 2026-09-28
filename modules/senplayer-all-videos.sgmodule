@@ -1,0 +1,8 @@
+#!name=SenPlayer 视频播放通知
+#!desc=发现可识别的视频直链时，点击 Surge 通知交给 SenPlayer 播放。需要启用 MITM 并信任证书。
+
+[MITM]
+hostname = %APPEND% *
+
+[Script]
+SenPlayer 视频播放通知 = type=http-response, pattern=^https?:\/\/, script-path=https://raw.githubusercontent.com/YuKong79A/Surge-rule/main/scripts/senplayer-all-videos.js, requires-body=false
