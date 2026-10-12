@@ -40,14 +40,8 @@ dns:
   - '*.stun.twilio.com'
   - stun.syncthing.net
   - stun.*
-  - 127.*.*.*.sslip.io
-  - 127-*-*-*.sslip.io
-  - '*.127.*.*.*.sslip.io'
-  - '*-127-*-*-*.sslip.io'
-  - 127.*.*.*.nip.io
-  - 127-*-*-*.nip.io
-  - '*.127.*.*.*.nip.io'
-  - '*-127-*-*-*.nip.io'
+  - +.sslip.io
+  - +.nip.io
 tun:
   enable: true
   stack: mixed
