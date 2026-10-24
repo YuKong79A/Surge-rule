@@ -1,5 +1,7 @@
-# FlClash / Mihomo profile. Add your own Clash/Mihomo node subscription URL at proxy-providers.airport.url.
-# Nodes are supplied by the subscription; no static nodes or private credentials are embedded.
+# FlClash / Mihomo 双机场配置。
+# 在本地分别填写 proxy-providers.Subscribe.url 和 proxy-providers.Subscribe2.url。
+# 使用 Clash / Mihomo 格式的订阅；请勿将含 token 的私人订阅链接提交到公开仓库。
+# 地区组自动汇总两个机场的节点，也可在 Proxy / 我的节点中按机场选择。
 mixed-port: 7890
 allow-lan: false
 mode: rule
@@ -51,15 +53,29 @@ tun:
   - any:53
   
 proxy-providers:
-  Subscribe: # 在此将 "http://your-service-provider" 替换为你的机场订阅，推荐使用 base64 或者 node list
+  Subscribe: # 机场 1：替换下面的订阅链接
     type: http
-    url: "your url"
+    url: "https://airport1.example.com/subscribe"
+    path: ./proxy_providers/airport1.yaml
     interval: 43200
+    override:
+      additional-prefix: "[机场1] "
     health-check:
       enable: true
       url: http://cp.cloudflare.com/generate_204
       interval: 300
-      
+  Subscribe2: # 机场 2：替换下面的订阅链接
+    type: http
+    url: "https://airport2.example.com/subscribe"
+    path: ./proxy_providers/airport2.yaml
+    interval: 43200
+    override:
+      additional-prefix: "[机场2] "
+    health-check:
+      enable: true
+      url: http://cp.cloudflare.com/generate_204
+      interval: 300
+
 proxy-groups:
 - name: Proxy
   type: select
@@ -71,6 +87,8 @@ proxy-groups:
   - 🇨🇳 台湾节点
   - 🇸🇬 新加坡节点
   - ✈️ 我的节点
+  - ✈️ 机场1
+  - ✈️ 机场2
 - name: AIGC
   type: select
   proxies:
@@ -206,6 +224,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇭🇰|香港|Hong|HK)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -213,6 +232,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇺🇸|美国|States|US)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -222,6 +242,7 @@ proxy-groups:
   - 🇺🇸 美国节点
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)((🇺🇸|美国|States|US).*高级|高级.*(🇺🇸|美国|States|US))
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -229,6 +250,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇯🇵|日本|Japan|JP)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -236,6 +258,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇨🇳|台湾|Tai|TW)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -243,6 +266,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇰🇷|韩国|Korea|KR)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -250,6 +274,7 @@ proxy-groups:
   type: url-test
   use:
   - Subscribe
+  - Subscribe2
   filter: (?i)(🇸🇬|新加坡|Singapore|SG)
   url: http://cp.cloudflare.com/generate_204
   interval: 300
@@ -259,13 +284,26 @@ proxy-groups:
   - Proxy
   use:
   - Subscribe
+  - Subscribe2
   filter: 实验性
   url: http://cp.cloudflare.com/generate_204
   interval: 300
 - name: ✈️ 我的节点
   type: select
+  proxies:
+  - ✈️ 机场1
+  - ✈️ 机场2
   use:
   - Subscribe
+  - Subscribe2
+- name: ✈️ 机场1
+  type: select
+  use:
+  - Subscribe
+- name: ✈️ 机场2
+  type: select
+  use:
+  - Subscribe2
 rule-providers:
   reject_non_ip_drop:
     type: http
